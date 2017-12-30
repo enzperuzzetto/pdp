@@ -1,12 +1,17 @@
 # pdp: REMOTELY TRIGGERED BLACK HOLE FILTERING (RTBH)
 
 ## Meteor.js ##
-curl https://install.meteor.com/ | sh
-require packages:
+```sh
+>curl https://install.meteor.com/ | sh
+```
+
+**require packages:**
 	-twbs:bootstrap
 	-ian:accounts-ui-boostrap-3
 	-iron:router
-meteor npm install --save babel-runtime
+```sh
+>meteor npm install --save babel-runtime
+```
 
 ## NEmu ##
 http://nemu.valab.net/index.php?static27/tuto-setup-nemu-linux
@@ -15,7 +20,9 @@ http://nemu.valab.net/index.php?static27/tuto-setup-nemu-linux
 
 
 ## Dynamips ##
-sudo apt install dynamips
+```sh
+>sudo apt install dynamips
+```
 
 ## ExaBGP ##
 https://thepacketgeek.com/influence-routing-decisions-with-python-and-exabgp/
