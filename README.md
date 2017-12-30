@@ -6,9 +6,10 @@
 ```
 
 **require packages:**
-	-twbs:bootstrap
-	-ian:accounts-ui-boostrap-3
-	-iron:router
+
+	- twbs:bootstrap
+	- ian:accounts-ui-boostrap-3
+	- iron:router
 ```sh
 >meteor npm install --save babel-runtime
 ```
