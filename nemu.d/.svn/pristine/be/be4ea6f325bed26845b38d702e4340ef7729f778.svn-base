@@ -1,0 +1,281 @@
+# ------------------------------------
+# -- Generic Makefile for c sources --
+# ------------------------------------
+
+# Copyright (C) 2008-2016  Vincent Autefage
+
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Lesser General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Lesser General Public License for more details.
+
+#    You should have received a copy of the GNU Lesser General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# http://valab.net
+
+
+# ------------------------------
+# --------- PARAMETERS ---------
+# ------------------------------
+
+# --------- Compiler & flags ---------
+CC= g++
+CFLAGS= 
+COPTIM= -O3
+COPTS= -pthread
+# ------------------------------------
+
+# --------- Shared Object Flags ---------
+C_SHARED_FLAG=
+# ---------------------------------------
+
+# --------- Lib & include directories ---------
+INCLUDE_DIRS=
+LIB_STATIC_DIRS=
+LIB_SHARED_DIRS=
+# ---------------------------------------------
+
+# --------- Sub directories ---------
+SUB_MAKEFILE=Makefile
+# -----------------------------------
+
+# --------- New Lib, include & bin directories ---------
+NEW_BIN_DIR=
+NEW_INCLUDE_DIR=
+NEW_STATIC_LIB_DIR=
+NEW_SHARED_LIB_DIR=
+# ------------------------------------------------------
+
+# --------- Extern libs ---------
+LD_LIBS=
+#--------------------------------------------
+
+# --------- Final files name ---------
+OUTFILE=
+NEW_STATIC_LIB=
+NEW_SHARED_LIB=
+CPPFILES=
+# ------------------------------------
+
+
+# ------------------------------------
+# --------- Additional Tools ---------
+# ------------------------------------
+
+# WARNINGS : modify this section at your own risks...
+
+# --------- Static Lib Compiler ---------
+SLCC=ar
+SLCFLAGS=-rcs
+# ---------------------------------------
+
+# --------- Shared Lib Compiler ---------
+DLCC=$(CC)
+DLCFLAGS=-shared
+# ---------------------------------------
+
+# --------- Dependences Checker ---------
+DPC=$(CC)
+DPCOPT=-MM
+# ---------------------------------------
+
+
+# ------------------------
+# --------- CORE ---------
+# ------------------------
+
+# WARNINGS : modify this section at your own risks...
+
+# --------- Files ---------
+_SRC= $(wildcard *.cpp)
+_ASM= $(_SRC:.cpp=.s)
+_PRE=$(_SRC:.cpp=.i)
+_OUTS= $(_SRC:.cpp=) 
+_OBJS= $(_SRC:.cpp=.o)
+_NEW_STATIC_LIB=lib$(NEW_STATIC_LIB).a
+_NEW_SHARED_LIB=lib$(NEW_SHARED_LIB).so
+_SUBMFS=$(shell find . -mindepth 2 -name $(SUB_MAKEFILE))
+# -------------------------
+
+# --------- CORE_LIST ---------
+_LDLIBS=
+_LIBSDIRS=
+_LIBDDIRS=
+_CPPFLAGS=
+_SUBDIRS=
+# -----------------------------
+
+# --------- Sub Functions ---------
+_LIST_LDLIBS_FUNC= $(foreach i, $(LD_LIBS), $(eval _LDLIBS+=-l$(i)))
+_LIST_LIBSDIRS_FUNC= $(foreach i, $(LIB_STATIC_DIRS), $(eval _LIBSDIRS+=-L$(i)))
+_LIST_LIBDDIRS_FUNC= $(foreach i, $(LIB_SHARED_DIRS), $(eval _LIBDDIRS+=-L$(i))) $(foreach i, $(LIB_SHARED_DIRS), $(eval _LIBDDIRS+=-Wl,-rpath,$(i)))
+_LIST_CPPFLAGS_FUNC= $(foreach i, $(INCLUDE_DIRS), $(eval _CPPFLAGS+=-I$(i)))
+_LIST_SUB_DIRS_FUNC= $(foreach i, $(_SUBMFS), $(eval _SUBDIRS+=$(shell dirname $(i))))
+_INIT=$(_LIST_LDLIBS_FUNC) $(_LIST_LIBSDIRS_FUNC) $(_LIST_LIBDDIRS_FUNC) $(_LIST_CPPFLAGS_FUNC) $(_LIST_SUB_DIRS_FUNC)
+# ---------------------------------
+
+# --------- Compilation Rules ---------
+all:$(_INIT) $(_OUTS) 
+
+%:%.cpp
+	$(CC) $(CFLAGS) $(COPTIM) $(COPTS) $^ $(_CPPFLAGS) $(_LDLIBS) $(_LIBSDIRS) $(_LIBDDIRS) -o $@
+
+c:$(_OBJS)
+
+%.o:%.cpp 
+	$(CC) $(CFLAGS) $(C_SHARED_FLAG) $(COPTIM) $(COPTS) $^ $(_CPPFLAGS) -c -o $@
+
+asm:$(_ASM)
+
+%.s:%.cpp
+	$(CC) $(CFLAGS) $(C_SHARED_FLAG) $(COPTIM) $(COPTS) $^ $(_CPPFLAGS) -S -o $@
+
+pre:$(_PRE)
+
+%.i:%.cpp
+	$(CC) $(CFLAGS) $(C_SHARED_FLAG) $(COPTIM) $(COPTS) $^ $(_CPPFLAGS) -E -o $@
+
+out:$(_OBJS) 
+	$(CC) $(CFLAGS) $(COPTIM) $(COPTS) $^ $(_LDLIBS) $(_LIBSDIRS) $(_LIBDDIRS) -o $(OUTFILE)
+
+dep:
+	@$(DPC) $(DPCOPT) $(_SRC)
+
+sub(%):
+	for i in $(_SUBDIRS); do $(MAKE) -C $$i -f $(SUB_MAKEFILE) $%; done;
+
+sub:
+	for i in $(_SUBDIRS); do $(MAKE) -C $$i -f $(SUB_MAKEFILE); done;
+# -------------------------------------
+
+# --------- Phony Rules ---------
+.PHONY: clean clean-out clean-o clean-asm clean-pre clean-lib install-bin install-final-bin install-headers install-static install-shared mrproper version help
+clean : clean-out clean-o clean-asm clean-pre clean-lib
+
+clean-out:
+	rm -f $(_OUTS) $(OUTFILE)
+
+clean-o:
+	rm -f $(_OBJS)
+
+clean-asm:
+	rm -f $(_ASM)
+
+clean-pre:
+	rm -f $(_PRE)
+
+clean-lib:
+	rm -f $(_NEW_STATIC_LIB) $(_NEW_SHARED_LIB)
+
+install-final-bin: $(OUTFILE)
+	test -d $(NEW_BIN_DIR) || mkdir -p $(NEW_BIN_DIR)
+	cp $(OUTFILE) $(NEW_BIN_DIR)/; done;
+
+install-bin: $(_OUTS)
+	test -d $(NEW_BIN_DIR) || mkdir -p $(NEW_BIN_DIR)
+	for i in $(_OUTS) ; do cp $$i $(NEW_BIN_DIR)/; done;
+
+build-static: $(_OBJS)
+	$(SLCC) $(SLCFLAGS) $(_NEW_STATIC_LIB) $(_OBJS)
+
+build-shared: $(_OBJS)
+	$(DLCC) $(DLCFLAGS) -o $(_NEW_SHARED_LIB) $(_OBJS)
+
+install-headers: $(CPPFILES)
+	test -d $(NEW_INCLUDE_DIR) || mkdir -p $(NEW_INCLUDE_DIR)
+	for i in $(CPPFILES); do cp $$i $(NEW_INCLUDE_DIR)/; done;
+
+install-static: build-static install-headers
+	test -d $(NEW_STATIC_LIB_DIR) || mkdir -p $(NEW_STATIC_LIB_DIR)
+	cp $(_NEW_STATIC_LIB) $(NEW_STATIC_LIB_DIR)/
+
+install-shared: build-shared install-headers
+	test -d $(NEW_SHARED_LIB_DIR) || mkdir -p $(NEW_SHARED_LIB_DIR)
+	cp $(_NEW_SHARED_LIB) $(NEW_SHARED_LIB_DIR)/
+
+mrproper: clean
+	test -d $(NEW_STATIC_LIB_DIR) && rm -f $(NEW_STATIC_LIB_DIR)/$(_NEW_STATIC_LIB)
+	test -d $(NEW_SHARED_LIB_DIR) && rm -f $(NEW_SHARED_LIB_DIR)/$(_NEW_SHARED_LIB)
+	test -d $(NEW_INCLUDE_DIR) && (for i in $(CPPFILES); do rm -f $(NEW_INCLUDE_DIR)/$$i; done;)
+	test -d $(NEW_BIN_DIR) && (for i in $(OUTFILE) $(_OUTS); do rm -f $(NEW_BIN_DIR)/$$i; done;)
+
+version:
+	@echo "-- Generic Makefile --"
+	@echo "Author  : Vincent Autefage"
+	@echo "Version : 3"
+	@echo "License : GNU Lesser General Public License 3"
+	@echo "Contact : http://valab.net"
+
+help:
+	@echo "--[ Generic Makefile ]--"
+	@echo
+	@echo "USES"
+	@echo -e "\t" "make [OPTIONS] : <src>[...] --> [<out>[...]] [action]"
+	@echo
+	@echo "AUTOMATIC PROCEDURES"
+	@echo -e "\t" "make \t\t: *.c --> *{bin}"
+	@echo -e "\t" "make c\t\t: *.c --> *.o"
+	@echo -e "\t" "make asm\t: *.c --> *.s"
+	@echo -e "\t" "make pre\t: *.c --> *.i"
+	@echo -e "\t" "make <f>\t: <f>.c --> <f>{bin}"
+	@echo -e "\t" "make <f>.o\t: <f>.c --> <f>.o"
+	@echo -e "\t" "make <f>.s\t: <f>.c --> <f>.s"
+	@echo -e "\t" "make <f>.i\t: <f>.c --> <f>.i"
+	@echo -e "\t" "make dep\t: *.c --> displays dependencies"
+	@echo -e "\t" "make clean\t: removes o,i,s,a,so and bin files"
+	@echo -e "\t" "make clean-out\t: removes bin files"
+	@echo -e "\t" "make clean-o\t: removes object (.o) files"
+	@echo -e "\t" "make clean-asm\t: removes asm (.s) files"
+	@echo -e "\t" "make clean-lib\t: removes libraries (.a, .so)"
+	@echo -e "\t" "make help\t: help, what else ?..."
+	@echo -e "\t" "make version\t: Makefile version"
+	@echo
+	@echo "CONFIGURATION"
+	@echo -e "\t" "CC \t\t\t: Compiler program"
+	@echo -e "\t" "CFLAGS \t\t: Compiler flags"
+	@echo -e "\t" "COPTIM \t\t: Optimization"
+	@echo -e "\t" "COPTS \t\t\t: Optional flags"
+	@echo -e "\t" "C_SHARED_FLAG \t\t: Flag to compil object file with shared indicators (dynamic library)"
+	@echo -e "\t" "INCLUDE_DIRS \t\t: Headers directories that you whish to include in the toolchain"
+	@echo -e "\t" "LIB_STATIC_DIRS \t: Static libraries (.a) directories that you whish to include in the toolchain"
+	@echo -e "\t" "LIB_SHARED_DIRS \t: Dynamic libraries (.so) directories that you whish to include in the toolchain"
+	@echo -e "\t" "SUB_MAKEFILE \t\t: Name of the file which be read by make in sub-directories in case of sub-make operations"
+	@echo -e "\t" "NEW_BIN_DIR \t\t: Install bin directory"
+	@echo -e "\t" "NEW_INCLUDE_DIR \t: Install headers directory"
+	@echo -e "\t" "NEW_STATIC_LIB_DIR \t: Install static library directory"
+	@echo -e "\t" "NEW_SHARED_LIB_DIR \t: Install shared library directory"
+	@echo -e "\t" "LD_LIBS \t\t: Libraries (shared and static) that you whish to link to bin files"
+	@echo -e "\t" "OUTFILE \t\t: Final bin to build with all source files in the current directory"
+	@echo -e "\t" "NEW_STATIC_LIB \t: Static library to build and move in {NEW_STATIC_LIB_DIR}"
+	@echo -e "\t" "NEW_SHARED_LIB \t: Shared library to build and move in {NEW_SHARED_LIB_DIR}"
+	@echo -e "\t" "CPPFILES \t\t: Headers to move in {NEW_INCLUDE_DIR}"
+	@echo
+	@echo "PROCEDURES WHICH REQUIRE CONF SET"
+	@echo -e "\t" "make out \t\t: <src of current directory> --> {OUTFILE}"
+	@echo -e "\t" "make build-static \t: builds {NEW_STATIC_LIB}"
+	@echo -e "\t" "make build-shared \t: builds {NEW_SHARED_LIB}"
+	@echo -e "\t" "make install-bin \t: Installs all <src> bin in {NEW_BIN_DIR}"
+	@echo -e "\t" "make install-final-bin : Installs {OUTFILE} bin in {NEW_BIN_DIR}"
+	@echo -e "\t" "make install-headers \t: Installs {CPPFILES}"
+	@echo -e "\t" "make install-static \t: Installs {NEW_STATIC_LIB} and {CPPFILES}"
+	@echo -e "\t" "make install-shared \t: Installs {NEW_SHARED_LIB} and {CPPFILES}"
+	@echo -e "\t" "make mrproper \t\t: Cleans all of {NEW_<SHARED_LIB|STATIC_LIB|BIN|INCLUDE>_DIR"
+	@echo -e "\t" "make sub[(<rule>)] \t: Builds \"make [rule]\" in each sub-directory which contains a {SUB_MAKFEILE}"
+	@echo
+	@echo "AUTHOR"
+	@echo -e "\t Written by Vincent Autefage."
+	@echo -e "\t http://valab.net"
+	@echo
+	@echo "CONTACT & REPORTING BUGS"
+	@echo -e "\t http://valab.net"
+	@echo
+	@echo "COPYRIGHT"
+	@echo -e "\t" "(c) 2008-2016 Vincent Autefage."
+	@echo -e "\t" "GNU Lesser General Public License 3"
+

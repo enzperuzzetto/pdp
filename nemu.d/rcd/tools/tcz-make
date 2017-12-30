@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# ------------------------------------------------------
+# -- NEmu : The Network Emulator for Mobile Universes --
+# ------------------------------------------------------
+
+# Copyright (C) 2011-2016  Vincent Autefage
+
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Lesser General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Lesser General Public License for more details.
+
+#    You should have received a copy of the GNU Lesser General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# http://nemu.valab.net
+
+# Creates a TCZ package.
+
+if [ $# != 1 ]
+then
+  echo "Usage : $(basename $0) <root>";
+  exit 1;
+fi
+
+RD=$(basename $1)
+PRD=$(dirname $1)
+
+cd $PRD;
+mksquashfs $RD ${RD}.tcz;
+find $RD > ${RD}.tcz.list;
+echo -e "${RD}.tcz\n" > ${RD}.tcz.tree;
+md5sum ${RD}.tcz > ${RD}.tcz.md5.txt;
+touch ${RD}.tcz.info;

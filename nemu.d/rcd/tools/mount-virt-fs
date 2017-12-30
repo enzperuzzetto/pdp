@@ -1,0 +1,37 @@
+#!/bin/sh
+
+# ------------------------------------------------------
+# -- NEmu : The Network Emulator for Mobile Universes --
+# ------------------------------------------------------
+
+# Copyright (C) 2011-2016  Vincent Autefage
+
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Lesser General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Lesser General Public License for more details.
+
+#    You should have received a copy of the GNU Lesser General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# http://nemu.valab.net
+
+# Mounts a virtio device.
+
+if [ $# != 2 ]
+then
+  echo "Usage : $(basename $0) <mount tag> <mount point>";
+  exit 1;
+fi
+
+modprobe virtio_pci; 
+modprobe virtio_blk; 
+modprobe virtio_net; 
+modprobe virtio-rng; 
+modprobe virtio_balloon;
+mount -t 9p -o trans=virtio $1 $2 -oversion=9p2000.L;

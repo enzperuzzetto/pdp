@@ -1,0 +1,8 @@
+------------------------------------------------------
+-- NEmu : The Network Emulator for Mobile Universes --
+------------------------------------------------------
+
+NEmu is a distributed virtual network environment.
+It provides self-script (launcher and interpreter) and a python API for creating heterogeneous, dynamic, distributed, collaborative and mobile virtual networks on the top of QEMU.
+
+Documentation is available on http://nemu.valab.net

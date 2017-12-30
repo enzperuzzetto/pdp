@@ -1,0 +1,80 @@
+#!/bin/bash
+
+# ------------------------------------------------------
+# -- NEmu : The Network Emulator for Mobile Universes --
+# ------------------------------------------------------
+
+# Copyright (C) 2011-2016  Vincent Autefage
+
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Lesser General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Lesser General Public License for more details.
+
+#    You should have received a copy of the GNU Lesser General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# http://nemu.valab.net
+
+# Downloads a TCZ package, and dependencies, from the Tinycore repositories.
+
+REP4=http://tinycorelinux.net/4.x/x86/tcz;
+REP5=http://tinycorelinux.net/5.x/x86/tcz;
+
+KERN=3.8.13-tinycore;
+
+if [ $# -lt 1 ]
+then
+  echo "Usage : $(basename $0) <package> [tinycore version]";
+  exit 1;
+fi
+
+REP_LIST="REP5 REP4";
+
+if [ $# -eq 2 ]
+then
+    REP_LIST="REP$2";
+fi
+
+for i in tcz tcz.dep tcz.info tcz.list tcz.md5.txt tcz.tree tcz.zsync
+do
+ TARGET=$1.$i;
+ echo "Trying to download $TARGET...";
+ for NREP in $REP_LIST
+ do
+  REP=${!NREP};
+  if ! [ -e $TARGET ]
+  then   
+     echo -n "-> From $REP : ";
+     wget $REP/$1.$i &> /dev/null;
+     if [ ! $? -eq 0 ]
+     then
+	echo "Failed."
+	continue;
+     else
+        echo "Success."
+	break;
+     fi
+  else
+     echo "-> $TARGET is already there.";
+     break;
+  fi
+ done
+done
+
+echo "Looking for dependencies..."
+DEP=$(cat $1.tcz.dep 2> /dev/null);
+if [ ! $? -eq 0 ]
+then
+ echo "--> None."
+fi
+for i in $DEP
+do
+  _i=$(echo $i |sed "s/KERNEL/$KERN/g");
+  $0 $(basename $_i .tcz);
+done

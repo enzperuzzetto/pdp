@@ -1,0 +1,11 @@
+NEmu - The Network Emulator for Mobile Universes
+
+Version: 0.6.3
+	. vnd : 0.5.6
+	. nemo : 0.2.4
+	. vrouter initrd : 5.2
+	. vrouter kernel : 3.8.13-tinycore
+Author: Vincent Autefage
+License: GNU Lesser General Public License (LGPL v3)
+http://nemu.valab.net
+(c) 2011-2016 Vincent Autefage

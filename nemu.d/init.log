@@ -1,0 +1,129 @@
+python --version
+Python 2.7.12
+
+qemu-system-x86_64 --version
+QEMU emulator version 2.5.0 (Debian 1:2.5+dfsg-5ubuntu10.16), Copyright (c) 2003-2008 Fabrice Bellard
+
+locate --version
+mlocate 0.26
+Copyright (C) 2007 Red Hat, Inc. Tous droits réservés.
+Ce logiciel est distribué sous la licence GPL v.2.
+
+Ce programme est fourni SANS GARANTIE, dans la mesure permise par la loi.
+
+mksquashfs -version
+mksquashfs version 4.3-git (2014/06/09)
+copyright (C) 2014 Phillip Lougher <phillip@squashfs.org.uk>
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2,
+or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+make --version
+GNU Make 4.1
+Construit pour x86_64-pc-linux-gnu
+Copyright (C) 1988-2014 Free Software Foundation, Inc.
+Licence GPLv3+ : GNU GPL version 3 ou ultérieure <http://gnu.org/licenses/gpl.html>
+Ceci est un logiciel libre : vous êtes autorisé à le modifier et à la redistribuer.
+Il ne comporte AUCUNE GARANTIE, dans la mesure de ce que permet la loi.
+
+g++ --version
+g++ (Ubuntu 5.4.0-6ubuntu1~16.04.5) 5.4.0 20160609
+Copyright (C) 2015 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+
+dot -V
+dot - graphviz version 2.38.0 (20140413.2041)
+
+ssh -V
+OpenSSH_7.2p2 Ubuntu-4ubuntu2.2, OpenSSL 1.0.2g  1 Mar 2016
+
+sshfs --version
+FUSE library version: 2.9.4
+fusermount version: 2.9.4
+using FUSE kernel interface version 7.19
+SSHFS version 2.5
+
+vde_switch --version
+VDE 2.3.2
+Copyright 2003,...,2011 Renzo Davoli
+some code from uml_switch Copyright (C) 2001, 2002 Jeff Dike and others
+VDE comes with NO WARRANTY, to the extent permitted by law.
+You may redistribute copies of VDE under the terms of the
+GNU General Public License v2.
+For more information about these matters, see the files
+named COPYING.
+
+locate libcrypto.so
+/lib/x86_64-linux-gnu/libcrypto.so.1.0.0
+
+locate libssl.so
+/lib/x86_64-linux-gnu/libssl.so.1.0.0
+
+locate libpthread.so
+/lib/x86_64-linux-gnu/libpthread.so.0
+/lib32/libpthread.so.0
+/usr/lib/x86_64-linux-gnu/libpthread.so
+
+locate libreadline.so
+/lib/x86_64-linux-gnu/libreadline.so.6
+/lib/x86_64-linux-gnu/libreadline.so.6.3
+
+locate libvdeplug.so
+
+locate libboost_system-mt.so
+
+locate libboost_system.so
+/usr/lib/x86_64-linux-gnu/libboost_system.so.1.58.0
+
+locate libboost_thread.so
+
+locate libboost_chrono.so
+
+locate libboost_regex.so
+
+make out --directory=rcd/vnd -f Makefile
+make : on entre dans le répertoire « /home/enzperuzzetto/fac/Master1/Semestre2/pdp/nemu.d/rcd/vnd »
+g++   -O3 -pthread endpoint.cpp  -I/opt/local/include -c -o endpoint.o
+g++   -O3 -pthread mesap.cpp  -I/opt/local/include -c -o mesap.o
+g++   -O3 -pthread medeb.cpp  -I/opt/local/include -c -o medeb.o
+g++   -O3 -pthread mt19937.cpp  -I/opt/local/include -c -o mt19937.o
+g++   -O3 -pthread iface.cpp  -I/opt/local/include -c -o iface.o
+g++   -O3 -pthread prost.cpp  -I/opt/local/include -c -o prost.o
+g++   -O3 -pthread vnd.cpp  -I/opt/local/include -c -o vnd.o
+g++   -O3 -pthread main.cpp  -I/opt/local/include -c -o main.o
+g++   -O3 -pthread util.cpp  -I/opt/local/include -c -o util.o
+g++  -O3 -pthread endpoint.o mesap.o medeb.o mt19937.o iface.o prost.o vnd.o main.o util.o  -lrt -lssl -lcrypto -lreadline -lvdeplug -lboost_system -lboost_thread -lboost_chrono -lboost_regex   -L/opt/local/lib -Wl,-rpath,/opt/local/lib -o vnd.Linux-x86_64
+make : on quitte le répertoire « /home/enzperuzzetto/fac/Master1/Semestre2/pdp/nemu.d/rcd/vnd »
+
+make clean-o --directory=rcd/vnd -f Makefile
+make : on entre dans le répertoire « /home/enzperuzzetto/fac/Master1/Semestre2/pdp/nemu.d/rcd/vnd »
+rm -f endpoint.o mesap.o medeb.o mt19937.o iface.o vnd.o prost.o main.o util.o
+make : on quitte le répertoire « /home/enzperuzzetto/fac/Master1/Semestre2/pdp/nemu.d/rcd/vnd »
+
+make out --directory=rcd/nemo -f Makefile
+make : on entre dans le répertoire « /home/enzperuzzetto/fac/Master1/Semestre2/pdp/nemu.d/rcd/nemo »
+g++   -O3 -pthread nemo.cpp  -I/opt/local/include -c -o nemo.o
+g++   -O3 -pthread end_point.cpp  -I/opt/local/include -c -o end_point.o
+g++   -O3 -pthread mesap.cpp  -I/opt/local/include -c -o mesap.o
+g++   -O3 -pthread medeb.cpp  -I/opt/local/include -c -o medeb.o
+g++   -O3 -pthread prost.cpp  -I/opt/local/include -c -o prost.o
+g++   -O3 -pthread mt19937.cpp  -I/opt/local/include -c -o mt19937.o
+g++   -O3 -pthread sched.cpp  -I/opt/local/include -c -o sched.o
+g++   -O3 -pthread util.cpp  -I/opt/local/include -c -o util.o
+g++  -O3 -pthread nemo.o end_point.o mesap.o medeb.o prost.o mt19937.o sched.o util.o  -lrt -lssl -lcrypto -lreadline -lvdeplug -lboost_system -lboost_thread -lboost_chrono -lboost_regex   -L/opt/local/lib -Wl,-rpath,/opt/local/lib -o nemo.Linux-x86_64
+make : on quitte le répertoire « /home/enzperuzzetto/fac/Master1/Semestre2/pdp/nemu.d/rcd/nemo »
+
+make clean-o --directory=rcd/nemo -f Makefile
+make : on entre dans le répertoire « /home/enzperuzzetto/fac/Master1/Semestre2/pdp/nemu.d/rcd/nemo »
+rm -f end_point.o nemo.o mesap.o medeb.o prost.o mt19937.o sched.o util.o
+make : on quitte le répertoire « /home/enzperuzzetto/fac/Master1/Semestre2/pdp/nemu.d/rcd/nemo »
+
