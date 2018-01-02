@@ -3,7 +3,7 @@
 [localhost]
 
     [[7200]]
-    image = \Program Files\Dynamips\images\c7200-jk9o3s-mz.124-7a.image
+    image = /home/enzperuzzetto/fac/Master1/Semestre2/pdp/c7200-jk9s-mz.124-13b.image 
     # On Linux / Unix use forward slashes:
     # image = /opt/7200-images/c7200-jk9o3s-mz.124-7a.image
     npe = npe-400
