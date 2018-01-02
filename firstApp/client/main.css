@@ -1,0 +1,16 @@
+/***************** Police ***********************************/
+@font-face {
+    font-family: "Glyphicons Halflings";
+    src: url("/police/glyphicons-halflings-regular.ttf");
+}
+/****************** Body ************************************/
+body{
+    color:#333;
+    font-family: "Glyphicons Halfings", Arial, sans-serif;
+}
+
+.container, .navbar{
+    width:75%;
+    margin:auto;
+}
+

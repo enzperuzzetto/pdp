@@ -1,0 +1,58 @@
+<template name="api">
+  {{>navBar}}
+  
+  <div class="container-fluid">
+    <div class="row">
+      {{>sidebar}}
+
+      {{>apiContent}}
+    </div>
+  </div>
+</template>
+
+<template name="sidebar">
+  <nav class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidbar">
+    <ul class="nav nav-pills flex-column">
+      <li class="nav-item">
+	<a class="nav-link active" href="#">Subnet
+	  <span class="sr-only">(current)</span>
+	</a>
+      </li>
+      <li class="nav-item">
+	<a class="nav-link active" href="#">Resource</a>
+      </li>
+      <li class="nav-item">
+	<a class="nav-link active" href="#">GET /api/subnet</a>
+      </li>
+      <li class="nav-item">
+	<a class="nav-link active" href="#">POST /api/subnet</a>
+      </li>
+      <li class="nav-item">
+	<a class="nav-link active" href="#">PUT /api/subnet</a>
+      </li>
+      <li class="nav-item">
+	<a class="nav-link active" href="#">DELETE /api/subnet</a>
+      </li>
+    </ul>
+    
+    <ul class="nav nav-pills flex-column">
+      <li class="nav-item">
+	<a class="nav-link active" href="#">Exabgp</a>
+      </li>
+      <li class="nav-item">
+	<a class="nav-link active" href="#">GET /api/exabgp/status</a>
+      </li>
+      <li class="nav-item">
+	<a class="nav-link active" href="#">GET /api/exabgp/command{?action}</a>
+      </li>
+      <li class="nav-item">
+	<a class="nav-link active" href="#">GET /api/exabgp/commands</a>
+      </li>
+    </ul>
+  </nav>
+</template>
+
+<template name="apiContent">
+  <h1>API Documentation</h1>
+  <h2>Subnet</h2>
+</template>
