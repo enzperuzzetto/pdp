@@ -30,3 +30,6 @@ https://www.inetdoc.net/pdf/dynamips-dynagen.pdf
 ## ExaBGP ##
 https://thepacketgeek.com/influence-routing-decisions-with-python-and-exabgp/
 https://github.com/Exa-Networks/exabgp/wiki/Controlling-ExaBGP-:-interacting-from-the-API
+
+## Qemu ##
+http://dept-info.labri.fr/~magoni/infres/
